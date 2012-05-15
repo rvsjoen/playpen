@@ -222,10 +222,6 @@ $(document).ready(function() {
 		timer = setInterval(loop, 50);
 	});
 	
-	$("#sliderSize").slider(
-		{min: 5, max: 25}
-	);
-	
 	$("#sliderHeight").slider(
 		{min: 10, max: 50}
 	);
