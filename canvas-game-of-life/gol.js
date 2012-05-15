@@ -36,25 +36,17 @@ StateEnum = {
 };
 
 ColorEnum = {
-	NONE:			"#000",
-	UNDERPOPULATED: "#F00",
-	SUSTAINED: 		"#00F",
-	OVERCROWDED: 	"#0FF",
-	REPRODUCED: 	"#0F0",
+    NONE: "#000",
+    UNDERPOPULATED: "#F00",
+    SUSTAINED: "#00F",
+    OVERCROWDED: "#0FF",
+    REPRODUCED: "#0F0",
 };
 
 function Cell() {
-	this.neighbors = 0;
-	this.status    = 0;
-	this.color	   = 0;
-}
-
-if (_canvas && _canvas.getContext) {
-    _canvasBuffer = document.createElement('canvas');
-    _canvasBuffer.width = _canvas.width;
-    _canvasBuffer.height = _canvas.height;
-    _canvasContext = _canvas.getContext('2d');
-    _canvasBufferContext = _canvasBuffer.getContext('2d');
+    this.neighbors = 0;
+    this.status = 0;
+    this.color = 0;
 }
 
 function World() {
@@ -68,29 +60,29 @@ function World() {
         this.worlds[0] = Array(this.height * this.width);
         this.worlds[1] = Array(this.height * this.width);
         var tmp = str.split("");
-		
-		// Initialize the first world
-		var world = this.worlds[this.current];
+        
+        // Initialize the first world
+        var world = this.worlds[this.current];
         for(var i = 0; i < this.height; i++) {
             for(var j = 0; j < this.width; j++) {
-				c = new Cell();
+                c = new Cell();
                 if(tmp[i * this.width + j] == 1) {
-					c.state = StateEnum.ALIVE;
+                    c.state = StateEnum.ALIVE;
                 } else {
-					c.state = StateEnum.DEAD;
+                    c.state = StateEnum.DEAD;
                 }
-				c.color = ColorEnum.NONE;
-				world[i * this.width + j] = c;
+                c.color = ColorEnum.NONE;
+                world[i * this.width + j] = c;
             }
         }
-		
-		// Initialize the second world
-		var world = this.worlds[this.current + 1 % 2];
+        
+        // Initialize the second world
+        var world = this.worlds[this.current + 1 % 2];
         for(var i = 0; i < this.height; i++) {
             for(var j = 0; j < this.width; j++) {
-				c = new Cell();
-				c.color = ColorEnum.NONE;
-				world[i * this.width + j] = c;
+                c = new Cell();
+                c.color = ColorEnum.NONE;
+                world[i * this.width + j] = c;
             }
         }
     };
@@ -143,22 +135,22 @@ function World() {
             }
         }
 
-		next[(y * this.width) + x].color = ColorEnum.NONE;
+        next[(y * this.width) + x].color = ColorEnum.NONE;
         switch(cnt) {
             case 0:
             case 1:
                 next[(y * this.width) + x].state = StateEnum.DEAD;
-				if(next[(y * this.width) + x].state != grid[(y * this.width) + x].state)
-					next[(y * this.width) + x].color = ColorEnum.UNDERPOPULATED;
+                if(next[(y * this.width) + x].state != grid[(y * this.width) + x].state)
+                    next[(y * this.width) + x].color = ColorEnum.UNDERPOPULATED;
                 break;
             case 2:
             case 3:
                 if(grid[(y * this.width) + x].state == StateEnum.DEAD && cnt == 3) {
                     next[(y * this.width) + x].state = StateEnum.ALIVE;
-					next[(y * this.width) + x].color = ColorEnum.REPRODUCED;
+                    next[(y * this.width) + x].color = ColorEnum.REPRODUCED;
                 } else {
                     next[(y * this.width) + x].state = grid[(y * this.width) + x].state;
-					next[(y * this.width) + x].color = ColorEnum.SUSTAINED;
+                    next[(y * this.width) + x].color = ColorEnum.SUSTAINED;
                 }
                 break;
             case 4:
@@ -167,10 +159,10 @@ function World() {
             case 7:
             case 8:
                 next[(y * this.width) + x].state = StateEnum.DEAD;
-				next[(y * this.width) + x].color = ColorEnum.OVERCROWDED;
+                next[(y * this.width) + x].color = ColorEnum.OVERCROWDED;
                 break;
         }
-		next[(y * this.width) + x].neighbors = cnt;
+        next[(y * this.width) + x].neighbors = cnt;
     };
     
     this.update = function() {
@@ -195,10 +187,10 @@ function drawGrid() {
     display.fillRect(0,0, world.width * size, world.height * size);
     display.strokeStyle = "#666";
     for(var i = 0; i < world.width; i++) {
-		for(var j = 0; j < world.height; j++) {
-			display.fillStyle = grid[j * world.width + i].color;
+        for(var j = 0; j < world.height; j++) {
+            display.fillStyle = grid[j * world.width + i].color;
             display.fillRect(i * size, j * size, size, size);
-			display.strokeRect(i * size, j * size, size, size);
+            display.strokeRect(i * size, j * size, size, size);
         }
     }
 }
@@ -212,21 +204,70 @@ function loop() {
 
 // Now on to the UI stuff
 $(document).ready(function() {
-	$("#btnStart").click(function() {
-		$(this).attr('value', 'Restart');
-		world = new World();
-		world.init(test);
-		if(timer != null) {
-			clearInterval(timer);
-		}
-		timer = setInterval(loop, 50);
-	});
-	
-	$("#sliderHeight").slider(
-		{min: 10, max: 50}
-	);
-	
-	$("#sliderWidth").slider(
-		{min: 10, max: 50}
-	);
+
+    $("#btnStart").click(function() {
+        $(this).attr('value', 'Restart');
+        world = new World();
+        world.init(test);
+        if(timer != null) {
+            clearInterval(timer);
+        }
+        timer = setInterval(loop, 50);
+    });
+    
+    $("#sliderHeight").slider(
+        {
+            min: 10, 
+            max: 25,
+            value: 15,
+            slide: function(e, ui) {
+                $("#inputHeight").val(ui.value);
+                resizeGrid();
+            }
+        }
+    );
+    
+    $("#sliderWidth").slider(
+        {
+            min: 10, 
+            max: 50,
+            value: 25,
+            slide: function(e, ui) {
+                $("#inputWidth").val(ui.value);
+                resizeGrid();
+            }
+        }
+    );
+
+    resizeGrid();
 });
+
+function createCanvas() {
+     if (_canvas && _canvas.getContext) {
+        _canvasBuffer = document.createElement('canvas');
+        _canvasBuffer.width = _canvas.width;
+        _canvasBuffer.height = _canvas.height;
+        _canvasContext = _canvas.getContext('2d');
+        _canvasBufferContext = _canvasBuffer.getContext('2d');
+    }
+}
+
+function resizeGrid() {
+    var x = $("#sliderWidth").slider("value");
+    var y = $("#sliderHeight").slider("value");
+    $("#canvas").attr("width", x * size);
+    $("#canvas").attr("height", y * size);
+    createCanvas();
+    _canvasContext.clearRect(0, 0, _canvasBuffer.width, _canvasBuffer.height);
+    _canvasBufferContext.clearRect(0, 0, _canvasBuffer.width, _canvasBuffer.height);
+    _canvasBufferContext.fillStyle = "#000";
+    _canvasBufferContext.fillRect(0,0, x * size, y * size);
+    _canvasBufferContext.strokeStyle = "#666";
+    for(var i = 0; i < x; i++) {
+        for(var j = 0; j < y; j++) {
+            _canvasBufferContext.strokeRect(i * size, j * size, size, size);
+        }
+    }
+    _canvasContext.drawImage(_canvasBuffer, 0, 0);
+}
+​
