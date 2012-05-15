@@ -5,7 +5,9 @@ div#panel {
 
 div#panel div.ui-slider {
     margin: 10px 20px;
+    width: 70%;
 }
 div#panel input  {
-    display: block;
-}
+    float: right;
+    width: 20%;
+}​
