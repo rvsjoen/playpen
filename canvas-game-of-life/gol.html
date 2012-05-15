@@ -1,29 +1,30 @@
 <!doctype html>
 <html>
-	<head>
-		<title></title>
-		<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-	</head>
-	<body>
-		<canvas id="canvas" width="800" height="600">
-			Canvas not supported
-		</canvas>
-		<script type="text/javascript" src="gol.js"></script>
-		<select>
-			<option value="gospergun">Gospergun</option>
-		</select>
-		
-		
-		<div id="sliderSize"></div>
-		<div id="sliderHeight"></div>		
-		<div id="sliderWidth"></div>
-		
-		<button id="btnStart">Start</button>
-		<label for="height">Height</label>
-		<input type="text" size="8" name="height" default="40"/>
-		<label for="height">Width</label>
-		<input type="text" size="8" name="width" default="15"/>
-	</body>
+    <head>
+        <title></title>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    </head>
+    <body>
+        <canvas id="canvas" width="640" height="320">
+            Canvas not supported
+        </canvas>
+        <script type="text/javascript" src="gol.js"></script>
+        <div id="panel">
+            <dl>
+                <dt>Width</dt>
+                <dd><div id="sliderWidth"></div><input type="text" id="inputWidth" /></dd>
+                <dt>Height</dt>
+                <dd><div id="sliderHeight"></div><input type="text" id="inputHeight" /></dd>
+                <dt>Pattern</dt>
+                <dd>
+                    <select>
+                        <option value="gospergun">Gospergun</option>
+                    </select>
+                </dd>
+            </dl>
+            <button id="btnStart">Start</button>
+        </div>
+    </body>
 </html>

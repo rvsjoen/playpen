@@ -1,0 +1,11 @@
+div#panel {
+    float: right;
+    width: 260px;
+}
+
+div#panel div.ui-slider {
+    margin: 10px 20px;
+}
+div#panel input  {
+    display: block;
+}
